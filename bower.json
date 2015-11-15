@@ -1,0 +1,21 @@
+{
+  "name": "supportPalestine",
+  "homepage": "https://github.com/aliarshad9691/support_palestine",
+  "authors": [
+    "Ali Arshad <email@aliarshad.info>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
