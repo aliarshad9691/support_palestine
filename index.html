@@ -1,21 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Support Palestine by changing your dp on Facebook</title>
+	<title>Support Humanity Without Discrimination</title>
 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<h2>Support Palestine <small>by changing your dp on Facebook</small></h2>
+				<h2>Support Humanity <small><span class="hrghlight">Without Discrimination</span> by changing your dp on Facebook</small></h2>
+			</div>
+
+			<div class="col-md-10 col-md-offset-1">
+				<center><img class="profile"  id="profilePic" style="display:none"/>
+				<div class="dpwait" id="dpwait">
+
+					<div class="cssload-container">
+						<div class="cssload-whirlpool"></div>
+					</div>
+					<br /><br /><br /><br /><br /><br /><br />
+					Please wait...
+				</div>
+				</center>
+			</div>
+			<div class="col-md-10 col-md-offset-1">
+			<br /><br />
+				<center>
+				<button class="btn btn-default" onclick="shareThis()">Click here to spread the word</button>
+				</center>
+			</div>
+
+			<div class="col-md-10 col-md-offset-1">
+			<br /><br />
+				<center>
+				<span class="quote">Show the world that you support humanity and you stand against terrorism, whether it is in France, Palestine, Iraq, Seria, Pakistan or any part of the world.</span>
+				</center>
 			</div>
 		</div>
 	</div>
 	<h2 id="fb-welcome"></h2>
 
 	<script>
+    var userId = 0;
+	function shareThis(){
+		FB.ui({
+		  method: 'feed',
+		  link: 'https://apps.facebook.com/1047177468649816',
+		  caption: 'I stand for Humanity, Do you?',
+		}, function(response){});
+	}
+
 	  window.fbAsyncInit = function() {
 	    FB.init({
 	      appId      : '1047177468649816',
@@ -28,9 +64,20 @@
 	    function onLogin(response) {
 		  if (response.status == 'connected') {
 		    FB.api('/me?fields=first_name', function(data) {
-		      var welcomeBlock = document.getElementById('fb-welcome');
-		      welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+		      // var welcomeBlock = document.getElementById('fb-welcome');
+		      // welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+		      userId = data.id;
+
+		      FB.api("/me/picture?width=960&height=960",  function(response) {
+				    document.getElementById('profilePic').src="process.php?user="+userId+"&img="+btoa(response.data.url);
+				    $("#profilePic").load(function() {
+					    $("#profilePic").show();
+					    $("#dpwait").hide();
+					});
+				}); 
 		    });
+
+		    
 		  }
 		}
 
@@ -43,12 +90,12 @@
 		    // Otherwise, show Login dialog first.
 		    FB.login(function(response) {
 		      onLogin(response);
-		    }, {scope: 'user_friends, email'});
+		    }, {scope: ''});
 		  }
 		});
 
 
-
+		
 
 
 	    
