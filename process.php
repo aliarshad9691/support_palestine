@@ -7,10 +7,22 @@ fwrite($file, $userId."||".$imgURL."\r\n");
 fclose($file);
 
 $dest = @imagecreatefromjpeg ($imgURL);
+$destSize = getimagesize($imgURL);
+$destWidth = $destSize[0];
+$destHeight = $destSize[1];
+
 $src = @imagecreatefromjpeg ('flags.jpg');
+$srcSize = getimagesize('flags.jpg');
+$srcWidth = $srcSize[0];
+$srcHeight = $srcSize[1];
+
+
+$newSrc = imagecreatetruecolor ( $destWidth , $destHeight );
+imagecopyresized($newSrc, $src, 0, 0, 0, 0, $destWidth, $destHeight, $srcWidth, $srcHeight);
+
 
 // Copy and merge
-imagecopymerge($dest, $src, 0, 0, 0, 0, 960, 960, 50);
+imagecopymerge($dest, $newSrc, 0, 0, 0, 0, $destWidth, $destHeight, 50);
 
 // Output and free from memory
 header('Content-Type: image/jpeg');
